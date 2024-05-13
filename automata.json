@@ -1,0 +1,6 @@
+{
+	"estadoInicial": "a",
+	"estadosFinales": ["b"],
+	"cantidadFinales": "1",
+	"transiciones": ["a", "1", "b", "a", "0", "a", "b", "1", "a", "b", "0", "b"]
+}
