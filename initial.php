@@ -48,8 +48,6 @@ function pivote($transiciones, $estadoActual, $letra){
     return $transiciones[$i * 3 + 2];
 }
 
-
-
 function esFinal($autom, $ultimoEstado){
 	return in_array($ultimoEstado, $autom->getestadosFinales());
 }
