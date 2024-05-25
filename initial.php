@@ -6,7 +6,7 @@
      * @param int $cantidadFinales La cantidad de estados finales
      * @param array $transiciones Un array de transiciones del autómata
      */
-class AutomataFD{
+class AutomataFD{	
 	private $estadoInicial;
 	private $estadosFinales;
 	private $cantidadFinales;
