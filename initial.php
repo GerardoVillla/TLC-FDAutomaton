@@ -35,6 +35,9 @@ class AutomataFD{
 	
 
 }
+
+
+
 function pivote($transiciones, $estadoActual, $letra){
     $i = 0;
     $esTransicion = function($i) use ($transiciones, $estadoActual, $letra) {
@@ -52,40 +55,52 @@ function esFinal($autom, $ultimoEstado){
 	return in_array($ultimoEstado, $autom->getestadosFinales());
 }
 
+function leerAutomata($path){
+	echo "Implementacion de un automata finito determinista\n";
 
-echo "Implementacion de un automata finito determinista\n";
-
-$json = file_get_contents("automata.json");
-
-//echo $json;
-$info = json_decode($json, true);
-$autom = new AutomataFD($info['estadoInicial'],
-							$info['estadosFinales'], 
-							$info['cantidadFinales'],
-							$info['transiciones']);
-
-echo "Automata finito determinista encontrado: \n";
-echo "Estado inicial: ".$autom->getestadoInicial()."\n";
-echo "Estados finales: ";
-array_map(function($num) { echo $num; }, $autom->getestadosFinales());
-echo "\nCantidad de estados finales: ".$autom->getcantidadFinales()."\n";
-echo "Transiciones: ";
-array_map(function($num) { echo $num . ","; }, $autom->gettransiciones());
-
-echo"\nIngrese la palabra a evaluar: \n";
-$palabra = trim(fgets(STDIN));
-
-
-$estadoActual = $autom->getestadoInicial();
-for($i = 0; $i < strlen($palabra); $i++){	
-	$estadoActual = pivote($autom->gettransiciones(), $estadoActual, $palabra[$i]);
+	$json = file_get_contents($path);
+	
+	//echo $json;
+	$info = json_decode($json, true);
+	$autom = new AutomataFD($info['estadoInicial'],
+								$info['estadosFinales'], 
+								$info['cantidadFinales'],
+								$info['transiciones']);
+	
+	echo "Automata finito determinista encontrado: \n";
+	echo "Estado inicial: ".$autom->getestadoInicial()."\n";
+	echo "Estados finales: ";
+	array_map(function($num) { echo $num; }, $autom->getestadosFinales());
+	echo "\nCantidad de estados finales: ".$autom->getcantidadFinales()."\n";
+	echo "Transiciones: ";
+	array_map(function($num) { echo $num . ","; }, $autom->gettransiciones());
+	
+	return $autom;
 }
 
-if(esFinal($autom, $estadoActual)){
-	echo "La palabra es aceptada por el automata\n";
-}else{
-	echo "La palabra no es aceptada por el automata\n";
+function lanzarInicio($autom){
+	do{
+		echo"\nIngrese la palabra a evaluar: \n";
+		$palabra = trim(fgets(STDIN));
+		$estadoActual = $autom->getestadoInicial();
+		for($i = 0; $i < strlen($palabra); $i++){	
+			$estadoActual = pivote($autom->gettransiciones(), $estadoActual, $palabra[$i]);
+		}
+	
+		if(esFinal($autom, $estadoActual)){
+			echo "La palabra es aceptada por el automata\n";
+		}else{
+			echo "La palabra no es aceptada por el automata\n";
+		}
+		echo "Desea ingresar una nueva palabra? (s/n): \n";
+		$respuesta = trim(fgets(STDIN));
+	
+	}while($respuesta == 's');
+	
+
 }
+
+lanzarInicio(leerAutomata("automata.json"));
 
 
 
