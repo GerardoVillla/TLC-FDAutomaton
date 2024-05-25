@@ -20,6 +20,7 @@ class AutomataFD{
 	}
 	public function getestadoInicial(){
 		return $this->estadoInicial;
+		
 	}
 
 	public function getestadosFinales(){
